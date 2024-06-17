@@ -73,7 +73,7 @@ class myserial : public UnbufferedSerial
 
         #endif// putc_ENABLE
 
-        #if(print_int8_t_ENABLE)//print,int8_t
+        #if(print_ENABLE&&0)//print,int8_t
 
         /**
          * arduinoのprint関数が羨ましいので、mbedにも実装
@@ -87,20 +87,47 @@ class myserial : public UnbufferedSerial
 
 };
 
-#if(printbin_int8_t_ENABLE)//print_bin,int8_t
-
-/**
- * データを2進数の文字列に変換します
- * @param buf 変換後のデータを格納する配列(char*)
- * @param buf_size bufの長さ
- * @param data 変換するデータ
- */
-int8_t printbin(char *buf,size_t buf_size,int8_t data);
-
 }//namespace myserial
-}//namespace lib_ygdstmidn
-}//namespace mbed
+
+#if(printbin_ENABLE)//print_bin,int8_t
+
+// /**
+//  * データを2進数の文字列に変換します
+//  * @param buf 変換後のデータを格納する配列(char*)
+//  * @param buf_size bufの長さ
+//  * @param data 変換するデータ
+//  */
+// int8_t printbin(char *buf,size_t buf_size,int8_t data);
+
+template <typename T>
+void printbin(T);
+
+template <typename T>
+void printbin(T inputdata)
+{
+    // union data_union
+    // {
+    //     T data;
+    //     char c[sizeof(T)];
+    // };
+    
+    // cout << "Binary representation of " << inputdata << " is:" << endl;
+    // data_union inputunion;
+    // inputunion.data = inputdata;
+    // // for (int i = 0; i <= sizeof(T) - 1; i++)//ビッグインディアン
+    // for (int i = sizeof(T) - 1; i >= 0; i--)//リトルインディアン
+    // {
+    //     for (int j = 7; j >= 0; j--)
+    //     {
+    //         cout << ((inputunion.c[i] & (1U << j)) >> j);
+    //     }
+    // }
+    // cout << endl;
+}
 
 #endif// printbin_int8_t_ENABLE
+
+}//namespace lib_ygdstmidn
+}//namespace mbed
 
 #endif// INCLUDE_MYSERIAL_H_

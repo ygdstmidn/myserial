@@ -1,6 +1,10 @@
 #include "myserial.h"
 
-namespace lib_mbed_myserial
+namespace mbed
+{
+namespace lib_ygdstmidn
+{
+namespace myserial
 {
 
 #define PRINT_INT8_T_BUF_SIZE   9
@@ -46,7 +50,7 @@ void myserial::putc(uint8_t data)
 
 #endif// putc_ENABLE
 
-#if(print_int8_t_ENABLE)//print,int8_t
+#if(print_int8_t_ENABLE&&0)//print,int8_t
 
 int8_t myserial::print(int8_t data,myserial_print_format format)
 {
@@ -80,7 +84,9 @@ int8_t myserial::print(int8_t data,myserial_print_format format)
 
 #endif// print_int8_t_ENABLE
 
-#if(printbin_int8_t_ENABLE)//printbin,int8_t
+}//namespace myserial
+
+#if(printbin_ENABLE&&0)//printbin,int8_t
 
 int8_t printbin(char *buf, size_t buf_size, int8_t data)
 {
@@ -120,4 +126,5 @@ int8_t printbin(char *buf, size_t buf_size, int8_t data)
 
 #endif // printbin_int8_t_ENABLE
 
-}// namespace lib_mbed_myserial
+}//namespace lib_ygdstmidn
+}//namespace mbed
