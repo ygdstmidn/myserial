@@ -1,8 +1,10 @@
 #ifndef INCLUDE_MYSERIAL_H_
 #define INCLUDE_MYSERIAL_H_
 
+#define DEVICE_SERIAL 1
 #include "mbed.h"
 #include "myserial_config.h"
+#include "mbed_config.h"
 
 namespace lib_mbed_myserial
 {
