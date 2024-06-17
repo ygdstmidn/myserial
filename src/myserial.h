@@ -6,7 +6,11 @@
 #include "myserial_config.h"
 #include "mbed_config.h"
 
-namespace lib_mbed_myserial
+namespace mbed
+{
+namespace lib_ygdstmidn
+{
+namespace myserial
 {
 
 enum myserial_print_format
@@ -93,7 +97,9 @@ class myserial : public UnbufferedSerial
  */
 int8_t printbin(char *buf,size_t buf_size,int8_t data);
 
-}// namespace lib_mbed_myserial
+}//namespace myserial
+}//namespace lib_ygdstmidn
+}//namespace mbed
 
 #endif// printbin_int8_t_ENABLE
 
