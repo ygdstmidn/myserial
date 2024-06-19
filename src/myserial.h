@@ -99,30 +99,43 @@ class myserial : public UnbufferedSerial
 //  */
 // int8_t printbin(char *buf,size_t buf_size,int8_t data);
 
-template <typename T>
-void printbin(T);
-
-template <typename T>
-void printbin(T inputdata)
+template <typename T,typename C>
+void printbin(C*,size_t,T);
+template <typename T,typename C>
+void printbin(C *buf,size_t buf_size,T inputdata)
 {
-    // union data_union
-    // {
-    //     T data;
-    //     char c[sizeof(T)];
-    // };
-    
-    // cout << "Binary representation of " << inputdata << " is:" << endl;
-    // data_union inputunion;
-    // inputunion.data = inputdata;
-    // // for (int i = 0; i <= sizeof(T) - 1; i++)//ビッグインディアン
-    // for (int i = sizeof(T) - 1; i >= 0; i--)//リトルインディアン
-    // {
-    //     for (int j = 7; j >= 0; j--)
-    //     {
-    //         cout << ((inputunion.c[i] & (1U << j)) >> j);
-    //     }
-    // }
-    // cout << endl;
+    if (buf_size == 0||buf == nullptr||sizeof(C)!=1)
+    {
+        return;
+    }
+    union data_union
+    {
+        T data;
+        char c[sizeof(T)];
+    };
+    data_union inputunion;
+    inputunion.data = inputdata;
+    // for (int i = 0; i <= sizeof(T) - 1; i++)//ビッグインディアン
+    for (int i = sizeof(T) - 1; i >= 0; i--)//リトルインディアン
+    {
+        for (int j = 7; j >= 0; j--)
+        {
+            if (buf_size == 0)
+            {
+                return;
+            }
+            buf_size--;
+            if (inputunion.c[i] & (1 << j))
+            {
+                *buf = '1';
+            }else
+            {
+                *buf = '0';
+            }
+            buf++;
+        }
+    }
+    //末尾をNULLにする
 }
 
 #endif// printbin_int8_t_ENABLE
