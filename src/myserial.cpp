@@ -85,46 +85,5 @@ int8_t myserial::print(int8_t data,myserial_print_format format)
 #endif// print_int8_t_ENABLE
 
 }//namespace myserial
-
-#if(printbin_ENABLE&&0)//printbin,int8_t
-
-int8_t printbin(char *buf, size_t buf_size, int8_t data)
-{
-    if(buf_size==0)
-    {
-        return 0;
-    }
-    else if(data==0)
-    {
-        buf[0] = '0';
-        return 1;
-    }
-
-    unsigned char buf_i=0;
-    unsigned char data_i=0;
-
-    while((!(data & (1U << (7-data_i))))&&(data_i<8))
-    {
-        data_i++;
-    }
-
-    while(data_i<8U && buf_i<buf_size)
-    {
-        if(data & (1U << (7-data_i)))
-        {
-            buf[buf_i] = '1';
-        }else
-        {
-            buf[buf_i] = '0';
-        }
-        buf_i++;
-        data_i++;
-    }
-
-    return buf_i;
-}
-
-#endif // printbin_int8_t_ENABLE
-
 }//namespace lib_ygdstmidn
 }//namespace mbed

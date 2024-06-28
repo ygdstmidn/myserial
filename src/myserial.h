@@ -91,23 +91,28 @@ class myserial : public UnbufferedSerial
 
 #if(printbin_ENABLE)//print_bin,int8_t
 
-// /**
-//  * データを2進数の文字列に変換します
-//  * @param buf 変換後のデータを格納する配列(char*)
-//  * @param buf_size bufの長さ
-//  * @param data 変換するデータ
-//  */
-// int8_t printbin(char *buf,size_t buf_size,int8_t data);
-
+/**
+ * データを2進数の文字列に変換します
+ * @param buf 変換後のデータを格納する配列(char*もしくはunsigned char*)
+ * @param buf_size bufの長さ(バイト数)
+ * @param data 変換するデータ(任意の型)
+ * @return 変換したビット数(size_t)(0は変換失敗)
+ * @note bufの長さが足りない場合は、変換されません(返り値は0)
+ * @note 末尾にNULLが追加されます
+ * @note 返り値はNULLを含まない長さです
+ */
 template <typename T,typename C>
-void printbin(C*,size_t,T);
-template <typename T,typename C>
-void printbin(C *buf,size_t buf_size,T inputdata)
+size_t printbin(C *buf,size_t buf_size,T inputdata)
 {
     if (buf_size == 0||buf == nullptr||sizeof(C)!=1)
     {
-        return;
+        return 0;
     }
+    if(sizeof(T)>=buf_size)//バッファが足りない
+    {
+        return 0;
+    }
+
     union data_union
     {
         T data;
@@ -115,16 +120,12 @@ void printbin(C *buf,size_t buf_size,T inputdata)
     };
     data_union inputunion;
     inputunion.data = inputdata;
+
     // for (int i = 0; i <= sizeof(T) - 1; i++)//ビッグインディアン
-    for (int i = sizeof(T) - 1; i >= 0; i--)//リトルインディアン
+    for (int i = sizeof(T) - 1; i >= 0; i--)//リトルインディアン//mbedはこっち
     {
         for (int j = 7; j >= 0; j--)
         {
-            if (buf_size == 0)
-            {
-                return;
-            }
-            buf_size--;
             if (inputunion.c[i] & (1 << j))
             {
                 *buf = '1';
@@ -135,7 +136,11 @@ void printbin(C *buf,size_t buf_size,T inputdata)
             buf++;
         }
     }
+
     //末尾をNULLにする
+    *buf = '\0';
+
+    return sizeof(T) * 8;
 }
 
 #endif// printbin_int8_t_ENABLE
