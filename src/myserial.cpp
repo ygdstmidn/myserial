@@ -30,13 +30,8 @@ myserial::~myserial()
 uint8_t myserial::getc()
 {
     uint8_t buf;
-    if(read(&buf,1))
-    {
-        return buf;
-    }else
-    {
-        return 0;
-    }
+    read(&buf,1);
+    return buf;
 }
 
 #endif// getc_ENABLE

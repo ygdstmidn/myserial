@@ -57,7 +57,7 @@ class myserial : public UnbufferedSerial
         /**
          * 1バイト読み込みます。
          * @return 受信したデータ(unsigned char)
-         * @note 受信データがないときは、NULL(0x00)が返ってきます。
+         * @note 受信データがない場合は、受信するまで待ちます
         */
         uint8_t getc();
 
