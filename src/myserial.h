@@ -148,4 +148,6 @@ size_t printbin(C *buf,size_t buf_size,T inputdata)
 }//namespace lib_ygdstmidn
 }//namespace mbed
 
+using namespace mbed::lib_ygdstmidn::myserial;
+
 #endif// INCLUDE_MYSERIAL_H_
